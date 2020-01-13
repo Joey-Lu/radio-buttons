@@ -1,5 +1,6 @@
-import React, { useState, useEffect, createRef } from "react";
+import React, { useState} from "react";
 import ButtonGroup from "./ButtonGroup";
+// import './RadioButtons.css';
 
 const RadioButtons = ({ menus, rules }) => {
   const [disabledArray, setDisabledArray] = useState(() => {
@@ -28,32 +29,27 @@ const RadioButtons = ({ menus, rules }) => {
   const handleClick = selectedId => {
     let currentGroup = selectedId.charAt(0) - 1;
     const result = Array.from(disabledArray);
-
-    //save next group buttons disabled status
     result[currentGroup].map(item => {
-      if (item.id === selectedId){
-        item.nextDisabled = rules[selectedId]
-          ? (rules[selectedId].filter(j => (j.toString()[0] - selectedId.toString()[0]) <= 1))
-          : item.nextDisabled;
-      }
-    });
-
-    result[currentGroup].map(item => {
-      //set other buttons
+      //set nextDisabled
       if (item.id !== selectedId) {
         item.disabled = true;
+      }else{
+        if(!item.nextDisabled){
+          item.nextDisabled = rules[item.id] || [];
+        }
       }
+
       //set next group only if current group id is less than group number
-      if (item.nextDisabled && (currentGroup < result.length-1)) {
-        result[currentGroup+1].map(i => {
+      if (item.nextDisabled && (currentGroup < result.length - 1)) {
+        result[currentGroup + 1].map(i => {
           if (!item.nextDisabled.includes(parseInt(i.id))) {
             i.disabled = false;
             const ruleRromLastGroup = item.nextDisabled.filter(
-              j => (j.toString()[0] - i.toString()[0]) <= 1
-            )
-            const ownRule = rules[selectedId] || []; 
+              j => Math.abs(j.toString()[0] - i.id.toString()[0]) > 0
+            );
+            const ownRule = rules[i.id] || [];
             //merge rules from previous group in to current group
-            i.nextDisabled = [...ruleRromLastGroup,...ownRule];
+            i.nextDisabled = [...ruleRromLastGroup, ...ownRule];
           }
         });
       }

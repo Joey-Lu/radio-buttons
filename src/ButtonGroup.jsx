@@ -6,7 +6,6 @@ const ButtonGroup = memo(
     data,
     disabledIds,
     handleClick,
-    ...rest
   }) => {
 
     const isDisabled = id =>{
@@ -23,7 +22,6 @@ const ButtonGroup = memo(
               id={item.id}
               key={item.id}
               value={item.value}
-              {...rest}
             >
               {item.value}
             </Button>

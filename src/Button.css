@@ -1,0 +1,10 @@
+.button{
+    background-color:#2196f3;
+    font-size:12;
+    padding:20px;
+    width: 120px;
+    height:60px;
+    display: inline-block;
+    outline:none;
+    margin:4px;
+}
