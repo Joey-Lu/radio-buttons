@@ -1,33 +1,18 @@
 import React, { useState} from "react";
 import ButtonGroup from "./ButtonGroup";
 // import './RadioButtons.css';
+import { createDiabledOptionsArray } from "./utils";
+
 
 const RadioButtons = ({ menus, rules }) => {
   const [stage,setStage] = useState(0);
   const [disabledArray, setDisabledArray] = useState(() => {
-    let disabledArray = [];
-    for (let i = 0; i < menus.length; i++) {
-      disabledArray.push([]);
-      if (i === 0) {
-        menus[i].forEach(ele =>
-          disabledArray[i].push({
-            id: ele.id,
-            disabled: false,
-            rule:rules[ele.id] || [] //set rule for each raio
-          })
-        );
-      } else {
-        menus[i].forEach(ele =>
-          disabledArray[i].push({
-            id: ele.id,
-            disabled: true,
-            rule:rules[ele.id] || []
-          })
-        );
-      }
-    }
-    return disabledArray;
+    return createDiabledOptionsArray(menus,rules);
   });
+
+  const handleReset = ()=>{
+    setDisabledArray(createDiabledOptionsArray(menus,rules))
+  }
 
   const handleClick = selectedId => {
     let currentGroup = selectedId.charAt(0) - 1;
@@ -64,6 +49,7 @@ const RadioButtons = ({ menus, rules }) => {
         );
       })}
       <button disabled = {stage !== 2}>Submit</button>
+      <button onClick = {handleReset}>Result</button>
     </div>
   );
 };
