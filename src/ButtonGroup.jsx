@@ -1,5 +1,6 @@
 import React, { memo} from "react";
 import Button from "./Button";
+import "./ButtonGroup.css";
 
 const ButtonGroup = memo(
   ({
@@ -13,7 +14,7 @@ const ButtonGroup = memo(
     }
 
     return (
-      <div>
+      <div className="wrapper">
         {data.map(item => {
           return (
             <Button
